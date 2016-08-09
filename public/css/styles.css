@@ -1,0 +1,244 @@
+* {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color:#292421 !important;
+}
+
+.logo > img:hover {
+    -webkit-filter: drop-shadow(1px 1px 0 black) 
+                    drop-shadow(-1px -1px 0 white);
+    filter:drop-shadow(1px 1px 0 black) 
+           drop-shadow(-1px -1px 0 white);
+}
+
+.logo {
+    -webkit-transition-duration: 0.4s;  
+}
+
+.search{
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    border-color: #5B5B5B;
+    width: 500px;
+    -webkit-transition: width 0.4s ease;
+    transition: width 0.4s ease;
+    background: white;
+    margin-top: 13px;
+    margin-left: 15px;
+}
+
+.btn-notifs {
+    background-color: #E36C0A;
+    color:black;
+    -webkit-transition-duration: 0.4s;  
+} 
+
+.btn-notifs:hover {
+    color:black;
+    background-color: #9B4707;
+}
+
+.btn-notifs.white {
+    color:white;
+}
+
+.ui-autocomplete {
+    z-index:2000 !important;
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    width:500px;
+}
+
+.ui-autocomplete-category {
+    font-weight: bold;
+    line-height: 1.5;
+    padding:10px;
+    background-color:#474747;
+    color: #E36C0A;
+    text-shadow: #000 1px 1px 1px;
+}
+
+.ui-autocomplete-items {
+    color:red;
+}
+
+.notifs {
+    font-size:30px;
+    
+}
+
+.notifs:focus {
+    font-size:60px !important;
+    color:white !important;
+}
+
+.profile-pic {
+    position: relative;
+}
+
+.profile-pic:hover .edit {
+    display: block;
+}
+
+.edit {
+    padding-top: 7px;   
+    padding-right: 7px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: none;
+    font-size:24px;
+    margin-top:10px;
+}
+
+.edit a {
+    color: #000;
+}
+
+.col-centered {
+    float: none;
+    margin: 0 auto;
+}
+
+.content-pane {
+    margin-top:100px; 
+    margin-left:20px; 
+    height:800px; 
+    overflow-y:auto;
+}
+
+.info-box {
+    color:black;
+    font-size:18px;
+    padding:20px;
+}
+
+#getting_started {
+	background-color: white;
+    background-image: url("../images/ytbanner.jpg");
+    background-repeat: no-repeat;
+    background-position: center top;
+    height:980px;
+}
+
+#img_caption {
+    position:absolute;
+    top: 300px;
+    width: 100%;
+    text-align:center;
+}
+
+#caption_text {
+	color: #FFFFF0;
+	text-shadow: #000 2px 2px 2px;
+}
+
+#info1_text {
+	top: 40px;
+}
+
+#info2_text {
+	padding-left: 40px;
+	top: 40px;
+}
+
+.centered-content {
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.content-box-black {
+    background-color:#5B5B5B;
+    border-left-style:solid;
+    border-left-width:10px;
+    border-left-color:#E36C0A;
+}
+
+.content-box-blue {
+    background-color:#778899;
+    border-left-style:solid;
+    border-left-width:10px;
+    border-left-color:#E36C0A;
+}
+
+.content-box-scrollable-y {
+    background-color:white;
+    border-left-style:solid;
+    border-left-width:10px;
+    border-left-color:#E36C0A;
+    overflow-y:scroll;
+}
+
+.bordered-content {
+    padding:10px;
+    border:solid;
+    border-radius: 10px;
+    margin-top:10px;
+}
+
+.signup{
+ 	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	transform: -webkit-translate(-50%, -50%);
+  	transform: -ms-translate(-50%, -50%);
+  	border: 3px solid black;
+	padding: 25px;
+	background-color: #fff;
+	opacity: 0.8;
+ 	filter: alpha(opacity=80);
+}
+
+.drop-button {
+    background-color:transparent;
+    color: #D2691E;
+    text-shadow: #000 1px 1px 1px;
+    font-weight: bold;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.drop-down {
+    position: relative;
+    display: inline-block;
+}
+
+.drop-down:hover .drop-button {
+    color:#FF7F24;
+    outline: none !important;
+}
+
+.drop-button:focus{
+    color:#FF7F24;
+    outline: none !important;
+}
+
+.boxless-input {
+    font-weight: bold;
+
+}
+
+.boxless-input:hover {
+   background:#C1C1C1;
+}
+
+#save-button {
+    float:right;
+    margin-top: 20px;
+}
+
+.delete-button {
+    background: transparent;
+    border-style: none;
+    color: transparent;
+    font-size:25px;
+    -webkit-transition-duration: 0.2s;  
+}
