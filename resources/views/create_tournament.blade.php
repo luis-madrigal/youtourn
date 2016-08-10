@@ -22,7 +22,7 @@ Create your own tournament!
 	<nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
 		<form style = "color:white; font-size:32px;">
 			<span class = "boxless-input">
-				"<span id = "name" contenteditable = "true" style="max-width:60px;";>My Tournament</span>"
+				"<span id = "name" contenteditable = "true" onkeypress="return (this.innerText.length <= 20)";>My Tournament</span>"
 			</span>
 		</form>
 
