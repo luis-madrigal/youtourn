@@ -41,6 +41,16 @@ Route::post('/save_tournament', [
 	'as' => 'save.tournament'
 ]);
 
+Route::post('/upload_tournamentpic', [
+	'uses' => 'TournamentController@postUploadTournamentPicture',
+	'as' => 'upload.tournament.pic'
+]);
+
+Route::get('/tournamentimage/{filename}', [
+	'uses' => 'TournamentController@getTournamentImage',
+	'as' => 'tournament.image'
+]);
+
 Route::post('/edit_tournament', [
 	'uses' => 'TournamentController@postEditTournament',
 	'as' => 'edit.tournament'
