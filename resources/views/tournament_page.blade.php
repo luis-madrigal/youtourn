@@ -16,10 +16,10 @@
 			<div class = "col-md-4 content-box-blue content-pane">
 				
 				<center>
-					@if(is_null($tournament->image))
+					@if (!Storage::disk('local')->has($tournament->name . '-' . $tournament->id . '.jpg'))
 						<img class = "bordered-content img-circle" src="{{ URL::to('images/default.png') }}" height = "250">
 					@else
-						<img class = "bordered-content img-circle" src="{{ URL::to($tournament->image) }}" height = "250">
+						<img class = "bordered-content img-circle" src="{{ route('tournament.image', ['filename' => $tournament->name . '-' . $tournament->id . '.jpg']) }}" height = "250">
 					@endif
 				</center>
 				<p class = "info-box"> <b>Tournament Name:</b> {{ $tournament->name }}<br>
