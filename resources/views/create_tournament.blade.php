@@ -115,17 +115,16 @@ Create your own tournament!
 				<h4 class="modal-title">Upload your new tournament picture</h4>
 			</div>
 			<div class="modal-body">
-				<form action="" method="post" enctype="multipart/form-data">
+				<form id = "upload-form" action="" method="POST" enctype="multipart/form-data">
 					<div class="form-group">
 						<label for="exampleInputFile">Upload a Tournament Picture</label>
 						<input type="file" id="exampleInputFile" name = "image" onchange="loadFile(event)">
 						<p class="help-block">Image not be larger than 550 x 400 px.</p>
-						<img id="output"/>
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Okay</button>
+				<button id = "upload-button" type="button" class="btn btn-default" data-dismiss="modal">Okay</button>
 			</div>
 		</div>
 	</div>
@@ -157,15 +156,14 @@ Create your own tournament!
 <script type="text/javascript">
 	var token = "{{ Session::token() }}";
 	var url = "{{ route('save.tournament') }}";
+	var urlUpload = "{{ route('upload.tournament.pic') }}"
 </script>
 
 <script type="text/javascript">
-
   var loadFile = function(event) {
     var output = document.getElementById('output');
     output.src = URL.createObjectURL(event.target.files[0]);
   };
-
 </script>
 
 <script src = "{{ URL::to('js/create_sidebar.js') }}"></script>
