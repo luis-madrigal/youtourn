@@ -47,10 +47,10 @@
 						<center>
 							<div class = "tilt">
 								<a href = "{{ route('tournament.page', ['tournament_id' => $tournament->id]) }}">
-									@if(is_null($tournament->image))
+									@if (!Storage::disk('local')->has($tournament->name . '-' . $tournament->id . '.jpg'))
 										<img src="{{ URL::to('images/default.png' )}}" height = "200" style="padding:10px;">
 									@else
-										<img src="{{ URL::to($tournament->image) }}" height = "200" style="padding:10px;">
+										<img src="{{ route('tournament.image', ['filename' => $tournament->name . '-' . $tournament->id . '.jpg']) }}" height = "200" style="padding:10px;">
 									@endif
 								</a>
 							</div>
