@@ -37,8 +37,6 @@ function encodeRR(data) {
 }
 
 function saveFn(data, userData) {
-  var json = jQuery.toJSON(data)
-  $('#saveOutput').text('POST '+userData+' '+json)
 }
 
 $(function() {
@@ -100,5 +98,19 @@ $('#save-button').on('click', function() {
   })
   .done( function(msg) {
     window.location.replace('/tournament_page/' + msg['message']);  
+  });
+});
+
+$('#upload-button').on('click', function() {
+  $.ajax({
+    url:urlUpload + '?_token=' + token,
+    data:new FormData($('#upload-form')[0]),
+    type:'post',
+    cache:false,
+    processData: false,
+    contentType: false,
+  })
+  .done( function(msg) {
+    console.log(msg);
   });
 });
