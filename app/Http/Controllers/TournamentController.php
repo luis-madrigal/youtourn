@@ -7,8 +7,11 @@ use App\User;
 use App\Tournament;
 use App\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class TournamentController extends Controller
 {
@@ -29,7 +32,6 @@ class TournamentController extends Controller
     }
 
     public function getTournamentPage($tournament_id) {
-        Log::info($tournament_id);
     	$tournament = Tournament::where('id', $tournament_id)->first();
         $message = "";
         $following = false;
@@ -54,6 +56,7 @@ class TournamentController extends Controller
     }
 
     public function postCreateTournament(Request $request) {
+        
         $this->validate($request, [
             'name' => 'required',
         ]);
@@ -66,8 +69,21 @@ class TournamentController extends Controller
         $tournament->tourn_data = $request['tourn_data'];
 
         $request->user()->tournaments()->save($tournament);
+
+        $filename = $tournament->name . '-' . $tournament->id . '.jpg';
+
+        if (Storage::disk('local')->has('placeholder.jpg')) {
+            Storage::move('placeholder.jpg', $filename);
+        }
  
         return response()->json(['message' => $tournament->id], 200);
+    }
+
+    public function postUploadTournamentPicture(Request $request) {
+        $filename = 'placeholder.jpg';
+        
+        if (Input::hasFile('image'))
+            Storage::disk('local')->put($filename, File::get($request['image']));
     }
 
     public function postEditTournament(Request $request) {
@@ -111,5 +127,12 @@ class TournamentController extends Controller
             $tournamentNames[] = $tournament->name;
             $tournament->update();
         }
+    }
+
+    public function getTournamentImage($filename) {
+        Log::info($filename);
+        $file = Storage::disk('local')->get($filename);
+
+        return new Response($file, 200);
     }
 }
