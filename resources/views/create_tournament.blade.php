@@ -20,16 +20,22 @@ Create your own tournament!
 	<div class="overlay" style="display: none;"></div>
 
 	<nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+		<div class = "row">
+			<a type = "button" role = "button" data-toggle="modal" data-target="#upload-modal">
+				<img id=output src="{{ URL::to('images/default.png') }}" class = "bordered-content center-block profile-pic"  height = "250" >
+			</a>
+		</div>
+		
 		<form style = "color:white; font-size:32px;">
-			<span class = "boxless-input">
-				"<span id = "name" contenteditable = "true" onkeypress="return (this.innerText.length <= 20)";>My Tournament</span>"
+			<span class = "boxless-input" style="max-width:10px;">
+				<center>"<span id = "name" contenteditable = "true" onkeypress="return (this.innerText.length <= 20)">My Tournament</span>"</center>
 			</span>
 		</form>
 
 		<form style = "color:black; font-size:16px;">
 			<div class="form-group">
 				<label for="comment" style="color:white">Description:</label><br>
-				<textarea rows="5" cols="40" id="description" style = "border-radius: 10px; resize: none;"></textarea>
+				<center><textarea rows="5" cols="40" id="description" style = "border-radius: 10px; resize: none;"></textarea></center>
 			</div>
 		</form>
 
@@ -101,6 +107,29 @@ Create your own tournament!
 		</div>
 	</div>
 </div>
+<div id="upload-modal" class="modal" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Upload your new tournament picture</h4>
+			</div>
+			<div class="modal-body">
+				<form action="" method="post" enctype="multipart/form-data">
+					<div class="form-group">
+						<label for="exampleInputFile">Upload a Tournament Picture</label>
+						<input type="file" id="exampleInputFile" name = "image" onchange="loadFile(event)">
+						<p class="help-block">Image not be larger than 550 x 400 px.</p>
+						<img id="output"/>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Okay</button>
+			</div>
+		</div>
+	</div>
+</div>
 </div>
 
 <div id="modal_success" class="modal fade" role="dialog">
@@ -128,6 +157,15 @@ Create your own tournament!
 <script type="text/javascript">
 	var token = "{{ Session::token() }}";
 	var url = "{{ route('save.tournament') }}";
+</script>
+
+<script type="text/javascript">
+
+  var loadFile = function(event) {
+    var output = document.getElementById('output');
+    output.src = URL.createObjectURL(event.target.files[0]);
+  };
+
 </script>
 
 <script src = "{{ URL::to('js/create_sidebar.js') }}"></script>
