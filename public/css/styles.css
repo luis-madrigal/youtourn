@@ -6,17 +6,6 @@ body {
     background-color:#292421 !important;
 }
 
-.logo > img:hover {
-    -webkit-filter: drop-shadow(1px 1px 0 black) 
-                    drop-shadow(-1px -1px 0 white);
-    filter:drop-shadow(1px 1px 0 black) 
-           drop-shadow(-1px -1px 0 white);
-}
-
-.logo {
-    -webkit-transition-duration: 0.4s;  
-}
-
 .search{
     box-sizing: border-box;
     border: 2px solid #ccc;
@@ -43,6 +32,27 @@ body {
 
 .btn-notifs.white {
     color:white;
+}
+
+.nav-tabs > .active > a {
+    border: medium #E36C0A !important;
+    background-color: #E36C0A !important;
+    color:white !important;
+}
+
+.nav-tabs > .active > a:hover {
+    background-color: #E36C0A !important;
+}
+
+.nav-tabs > li > a{
+    border: medium none;
+    color:white !important;
+    font-size:16px;
+}
+.nav-tabs > li > a:hover{
+    background-color: #303136 !important;
+    border: medium none;
+    color:#fff;
 }
 
 .ui-autocomplete {
@@ -116,6 +126,8 @@ body {
     color:black;
     font-size:18px;
     padding:20px;
+    word-wrap:break-word;
+    overflow-x:hidden;
 }
 
 #getting_started {
@@ -179,6 +191,15 @@ body {
     border:solid;
     border-radius: 10px;
     margin-top:10px;
+}
+
+.upload-pic {
+    color:black;
+    -webkit-transition-duration: 0.2s;  
+}
+
+.upload-pic:hover {
+    color:#3D3D3D;
 }
 
 .signup{
