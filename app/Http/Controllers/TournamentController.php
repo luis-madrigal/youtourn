@@ -129,6 +129,26 @@ class TournamentController extends Controller
         }
     }
 
+    public function postSetWinnerTournament(Request $request) {
+        $winner = $request['winner'];
+        $tournament = Tournament::where('id', $request['tournament_id'])->first();
+        $tournament->winner = $winner;
+        $tournament->update();
+
+        $notifications = Notification::where('object_id', $tournament->id)->where('type', 'Follow')->get();
+
+        foreach ($notifications as $notification) {
+            $targetUser = User::where('id', $notification->source_id)->first();
+            $targetUser->newNotification()
+                        ->withSource($request->user()->id)
+                        ->withType('Winner')
+                        ->withSubject('The tournament your following has been concluded.')
+                        ->withBody('<b>' . $tournament->name . '</b> has finished with <b>' . $winner . '</b> being the winner.')
+                        ->regarding($tournament)
+                        ->deliver();
+        }
+    }
+
     public function getTournamentImage($filename) {
         Log::info($filename);
         $file = Storage::disk('local')->get($filename);
