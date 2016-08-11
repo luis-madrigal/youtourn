@@ -38,14 +38,20 @@
 
 				@if(Auth::check())
 					@if($message == 'Creator')
-						<button id = "edit-button" type="button" class="btn btn-primary" style = "float:right; margin-top: 17px;">
-							<i class="glyphicon glyphicon-pencil"></i> 
-							Edit
-						</button>
-						<button id = "save-button" type="button" class="btn btn-success hidden" style = "float:right; margin-top: 17px;">
-							<i class="glyphicon glyphicon-floppy-disk"></i> 
-							Save
-						</button>
+						@if($tournament->winner == NULL)
+							<button id = "edit-button" type="button" class="btn btn-primary" style = "float:right; margin-top: 17px;">
+								<i class="glyphicon glyphicon-pencil"></i> 
+								Edit
+							</button>
+							<button id = "done-button" type="button" class="btn btn-success" style = "float:right; margin-top: 17px;margin-right:10px">
+								<i class="glyphicon glyphicon-thumbs-up"></i> 
+								Declare as Done
+							</button>
+							<button id = "save-button" type="button" class="btn btn-success hidden" style = "float:right; margin-top: 17px;">
+								<i class="glyphicon glyphicon-floppy-disk"></i> 
+								Save
+							</button>
+						@endif
 					@else
 						@if($following)
 							<button id = "follow-button" type="button" class="btn btn-primary" style = "float:right; margin-top: 17px;">
@@ -90,6 +96,24 @@
 				</div>
 			</div>
 		</div>
+
+		<div id="done-modal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title" id = "done-modal-title-text"></h4>
+					</div>
+					<div class="modal-body">
+						<p id = "done-modal-text"></p>
+					</div>
+					<div class="modal-footer">
+						<button id = "done-modal-yes" type="button" class="btn btn-primary hidden" data-dismiss="modal">Yes</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 @endsection
 		
@@ -102,6 +126,7 @@
 		var tournamentId = {!! $tournament->id !!};
 		var urlNotif = '{{ route("follow.notif") }}';
 		var urlEdit = '{{ route("edit.tournament") }}';
+		var urlWin = '{{ route("set.winner.tournament") }}';
 	</script>
 	<script src = "{{ URL::to('js/underscore-min.js') }}"></script>
 
