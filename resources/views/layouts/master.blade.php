@@ -26,8 +26,14 @@
             var userNotifs = [];
             @if(Auth::check())
                 $(document).ready( function(){
+                    loadNotifs();
+                });
+
+                function loadNotifs() {
+                    console.log('load notifs');
                     var url = "{{ route('get.notifs', ['user_id' => Auth::user()->id]) }}";
                     $.get(url, function(data, status){
+                        $('#notif-container').empty();
                         var unreadCount = 0;
                         if(data['notifications'].length > 0) {
                             for(i = 0; i < data['notifications'].length; i++) {
@@ -36,6 +42,8 @@
                                     $('#notif-container').append("<li><a id = 'notif"+data['notifications'][i].id+"' href = '"+route+"'><i class='glyphicon glyphicon-thumbs-up'></i> " +data['notifications'][i].body+ "</li>")
                                 else if(data['notifications'][i].type == 'Edit')
                                     $('#notif-container').append("<li><a id = 'notif"+data['notifications'][i].id+"' href = '"+route+"'><i class='glyphicon glyphicon-pencil'></i> " +data['notifications'][i].body+ "</li>")
+                                else if(data['notifications'][i].type == 'Winner')
+                                    $('#notif-container').append("<li><a id = 'notif"+data['notifications'][i].id+"' href = '"+route+"'><i class='glyphicon glyphicon-flash'></i> " +data['notifications'][i].body+ "</li>")
                                 if(!data['notifications'][i].is_read) {
                                     $('#notif'+data['notifications'][i].id).attr('style', 'background-color:#C4C4C4');
                                     unreadCount++;
@@ -47,7 +55,8 @@
                             $('#notif-container').append("<li><a href = '#'>No notifications</a></li>")
                         }
                     });
-                });
+                    setTimeout(function(){ loadNotifs(); }, 3000);
+                }
 
                 function setUnreadNotifications() {
                     for (var i = 0; i < userNotifs.length; i++) {
