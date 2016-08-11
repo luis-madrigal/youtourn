@@ -14,7 +14,7 @@
 		<div class = "row col-centered">
 			<div class = "col-md-3 content-box-blue content-pane">
 				@if(Auth::user() == $user)
-					<a type = "button" role = "button" data-toggle="modal" data-target="#upload-modal">
+					<a class = "upload-pic" type = "button" role = "button" data-toggle="modal" data-target="#upload-modal">
 					@if (!Storage::disk('local')->has($user->first_name . '-' . $user->id . '.jpg'))
 						<img class = "bordered-content center-block profile-pic" src="{{ URL::to('images/person.jpg') }}" height = "250">
 					@else
@@ -122,7 +122,7 @@
 											<button type="button" id="delImage" class="btn btn-default btn-hover-red" data-dismiss="modal"  role="button">Delete</button>
 										</div>
 										<div class="btn-group form-group" role="group">
-											<button type="submit" id="saveImage" class="btn btn-default btn-hover-green" data-action="save" role="button">Save</button>
+											<button type="submit" id="saveImage" class="btn btn-primary btn-hover-green" data-action="save" role="button">Save</button>
                 							<input type="hidden" value="{{ Session::token() }}" name="_token">
 										</div>
 									</div>
@@ -134,48 +134,80 @@
 
 				<p class="info-box"> <b>Username:</b> {{ $user->username }}<br>
 					<b>Fullname:</b> {{ $user->first_name }} {{ $user->last_name }} <br>
+					<b>Birthdate:</b> {{ $user->birthday }} <br>
 					<b>Description:</b> {{ $user->description }}<br>
 				</p>
 
 			</div>
 
-			<div class= "col-md-8 content-box-blue" style = "margin-top:100px; margin-left:30px;">
+			<div class= "col-md-8" style = "margin-top:100px; margin-left:30px;">
 				
-				<h1 style = "color:black; float:left;"><span>
-					Tournaments Created:
-				</span></h1>
-				<button id = "delete-tournaments" type="button" class="btn btn-danger hidden" style = "float:right; margin-top: 17px;">
+				<ul class="nav nav-tabs">
+					<li id = "active" class="active"><a data-toggle="tab" href="#created" class = "tab-style">Tournaments Created</a></li>
+					<li><a data-toggle="tab" href="#followed" class = "tab-style">Tournaments Followed</a></li>
+
+					<button id = "delete-tournaments" type="button" class="btn btn-danger hidden" style = "float:right;">
 					<i class="glyphicon glyphicon-save"></i> 
 					Delete Tournaments
 				</button>
-			</div>
-			<div class= "col-md-8 content-box-scrollable-y"  style = "margin-top:10px; margin-left:30px; height:722px;">
-				<div class = "container-fluid t-container">
-					@foreach($tournaments as $tournament)
-						<div class = "row bordered-content" data-tourn-id = '{{ $tournament->id }}'>
-							<div class = "col-lg-1 grow">
-								<a href = "{{ route('tournament.page', ['tournament_id' => $tournament->id]) }}">
-									@if(is_null($tournament->image))
-										<img src="{{ URL::to('images/default.png' )}}">
-									@else
-										<img src="{{ URL::to($tournament->image) }}">
-									@endif
-								</a>
+				</ul>
+				
+				
+
+				<div class= "tab-content content-box-scrollable-y"  style = "height:755px;">
+					<div id = "created" class = "container-fluid t-container tab-pane fade in active">
+						@foreach($tournamentsCreated as $tournament)
+							<div class = "row bordered-content" data-tourn-id = '{{ $tournament->id }}' style = "margin-left:10px;">
+								<div class = "col-lg-1 grow">
+									<a href = "{{ route('tournament.page', ['tournament_id' => $tournament->id]) }}">
+										@if (!Storage::disk('local')->has($tournament->name . '-' . $tournament->id . '.jpg'))
+											<img src="{{ URL::to('images/default.png' )}}">
+										@else
+											<img src="{{ route('tournament.image', ['filename' => $tournament->name . '-' . $tournament->id . '.jpg']) }}">
+										@endif
+									</a>
+								</div>
+								<div class = "col-lg-8" style = "margin-left:40px;">
+									<p style = "font-size:16px;">
+										<b>Name:</b> {{ $tournament->name }}<br>
+										<b>Type:</b> {{ $tournament->type }}<br>
+										<b>Description:</b> {{ $tournament->description }}
+									</p>
+								</div>
+								@if(Auth::user() == $tournament->user)
+									<div style = "float:right">
+										<a role = "button" class = "delete-button" data-delete = "0"><span class = "glyphicon glyphicon-trash"></span></a>
+									</div>
+								@endif
 							</div>
-							<div class = "col-lg-8" style = "margin-left:40px;">
-								<p style = "font-size:16px;">
-									<b>Name:</b> {{ $tournament->name }}<br>
-									<b>Type:</b> {{ $tournament->type }}<br>
-									<b>Description:</b> {{ $tournament->description }}
-								</p>
+						@endforeach
+					</div>
+					<div id = "followed" class = "container-fluid t-container tab-pane">
+						@foreach($tournamentsFollowed as $tournament)
+							<div class = "row bordered-content" data-tourn-id = '{{ $tournament->id }}' style = "margin-left:10px;">
+								<div class = "col-lg-1 grow">
+									<a href = "{{ route('tournament.page', ['tournament_id' => $tournament->id]) }}">
+										@if (!Storage::disk('local')->has($tournament->name . '-' . $tournament->id . '.jpg'))
+											<img src="{{ URL::to('images/default.png' )}}">
+										@else
+											<img src="{{ route('tournament.image', ['filename' => $tournament->name . '-' . $tournament->id . '.jpg']) }}">
+										@endif
+									</a>
+								</div>
+								<div class = "col-lg-8" style = "margin-left:40px;">
+									<p style = "font-size:16px;">
+										<b>Name:</b> {{ $tournament->name }}<br>
+										<b>Type:</b> {{ $tournament->type }}<br>
+										<b>Description:</b> {{ $tournament->description }}
+									</p>
+								</div>
 							</div>
-							<div style = "float:right">
-								<a role = "button" class = "delete-button" data-delete = "0"><span class = "glyphicon glyphicon-trash"></span></a>
-							</div>
-						</div>
-					@endforeach
+						@endforeach
+					</div>
 				</div>
 			</div>
+			
+			
 		</div>
 	</div>
 
