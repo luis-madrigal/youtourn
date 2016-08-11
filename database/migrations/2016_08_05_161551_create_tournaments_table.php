@@ -21,8 +21,8 @@ class CreateTournamentsTable extends Migration
             $table->boolean('deleted')->default(false);
             $table->mediumText('tourn_data');
             $table->string('description', 500)->nullable();
-            $table->string('image')->nullable();
             $table->string('visibility', 8);
+            $table->string('winner', 50)->nullable();
             $table->timestamps();
         });
     }
