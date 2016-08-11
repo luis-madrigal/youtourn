@@ -74,15 +74,22 @@ class UserController extends Controller {
     public function getLogout() {
         Auth::logout();
 
-        return redirect()->route('home');
+        return redirect()->route('register');
     }
 
     public function getUserPage($user_id) {
         $user = User::where('id', $user_id)->first();
-        $tournaments = Tournament::where('user_id', $user_id)
+        $tournamentsCreated = Tournament::where('user_id', $user_id)
                                     ->where('deleted', false)->get();
+        $notifications = Notification::where('source_id', $user_id)->where('type', 'Follow')->get();
 
-        return view('profile', ['user' => $user, 'tournaments' => $tournaments]);
+        $tournamentsFollowed = [];
+
+        for ($i=0; $i < count($notifications); $i++) { 
+            $tournamentsFollowed[] = Tournament::where('id', $notifications[$i]->object_id)->first();
+        }
+
+        return view('profile', ['user' => $user, 'tournamentsCreated' => $tournamentsCreated, 'tournamentsFollowed' => $tournamentsFollowed]);
     }
 
     public function postEditAccount(Request $request) {
@@ -114,6 +121,8 @@ class UserController extends Controller {
 
         $file = $request->file('image');
         $filename = $user->first_name . '-' . $user->id . '.jpg';
+
+        Log::info($file);
 
         if($file) {
             Storage::disk('local')->put($filename, File::get($file));
