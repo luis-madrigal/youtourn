@@ -1,7 +1,10 @@
 var container = $('#editor');
 
 function encodeRR(data) {
+  console.log(data);
   var parsed = "";
+  var j = 1;
+  console.log(data.teams.length);
   for(i = 0; i < data.teams.length; i++) {
     parsed = parsed.concat(data.teams[i].id.toString());
     parsed = parsed.concat('^^');
@@ -9,6 +12,7 @@ function encodeRR(data) {
     parsed = parsed.concat('^^');
   }
   parsed = parsed.concat('&&');
+  console.log('Teams: ' + parsed);
   for(i = 0; i < data.matches.length; i++) {
     parsed = parsed.concat(data.matches[i].a.team.id);
     parsed = parsed.concat('^^');
@@ -22,6 +26,7 @@ function encodeRR(data) {
     parsed = parsed.concat('^^');
   }
   parsed = parsed.concat('&&');
+  console.log('Matches: ' + parsed)
   return parsed;
 }
 
@@ -32,6 +37,9 @@ function decodeRR() {
   var matches = split[1].split('^^');
   var item1 = {};
   var temp;
+
+  console.log('Teams: ' + teams);
+  console.log('Matches' + matches);
 
   for(i = 0; i < teams.length-1; i++) {
     item1 = '{';
@@ -99,7 +107,7 @@ $(function() {
       init: tournamentData,
       save: function(state) {
         tournamentData = state;
-        console.log(tournamentData);
+        console.log(state);
         $('#view').empty().group({
           init: state
         })
@@ -117,21 +125,16 @@ $(function() {
   }
 })
 
-
-
 $('#edit-button').on('click', function() {
   $(this).addClass('hidden');
   $('#save-button').attr('class', 'btn btn-success');
+  $('#done-button').hide();
   $('#view').hide();
   $('#editor').show();
   
 })
 
 $('#save-button').on('click', function() {
-  // $('#editor').hide();
-  // $('#view').show();
-  // $(this).addClass('hidden');
-  // $('#edit-button').attr('class', 'btn btn-primary');
   if(tournamentType == 'Round Robin') {
     tournamentData = encodeRR(tournamentData);
   } else {
@@ -146,28 +149,35 @@ $('#save-button').on('click', function() {
   updateTournament();
 })
 
-// $('#editor').group({
-//   init: tournamentData,
-//   save: function(state) {
-//     // Reconstruct read-only version by initializing it with received state
-//     $('#view').empty().group({
-//       init: state
-//     })
-//   }
-// })
+$('#done-button').on('click', function() {
+  if(tournamentType == 'Round Robin') {
 
-// $('#edit-button').click(function() {
-//   console.log(tournamentData);
-//   $('#save-button').show();
-//   $('#edit-button').hide();
-//   $('#view').hide();
-//   $('#editor').show();
+  } else {
+    try {
+      var winner = $('[class = "team win highlightWinner"] > .label')[0].innerHTML;
+      $('#done-modal-title-text').html('Declaring tournament as done');
+      $('#done-modal-text').html('Are you sure you want to finish this tournament with <b>'+winner+'</b> as the winner?<br>' +
+                                'Once you declare a tournament as done, you can no longer edit this tournament.');
+      $('#done-modal-yes').attr('class', 'btn btn-primary');
+      $('#done-modal').modal();
+    } catch (err) {
+      console.log(err);
+      $('#done-modal-title-text').html('You can\'t declare this tournament as done yet!');
+      $('#done-modal-text').html('This tournament doesn\'t have a winner yet!');
+      $('#done-modal').modal();
+    }
+  }
+})
 
-// })
-
-// $('#save-button').click(function() {
-//   $('#edit-button').show();
-//   $('#save-button').hide();
-//   $('#editor').hide();
-//   $('#view').show();
-// })
+$('#done-modal-yes').on('click', function() {
+  var winner = $('[class = "team win highlightWinner"] > .label')[0].innerHTML;
+  $.ajax( {
+    method: 'POST',
+    url: urlWin,
+    data: {tournament_id:tournamentId, winner:winner, _token:token}
+  })
+  .done( function(msg) {
+    $('#done-button').hide();
+    $('#edit-button').hide();
+  });
+})
