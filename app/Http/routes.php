@@ -66,6 +66,11 @@ Route::post('/undo_delete_tournamanet', [
 	'as' => 'undo.delete.tournament'
 ]);
 
+Route::post('/set_winner_tournamanet', [
+	'uses' => 'TournamentController@postSetWinnerTournament',
+	'as' => 'set.winner.tournament'
+]);
+
 Route::get('/tournament_pool', [
 	'uses' => 'TournamentController@getTournamentPool',
 	'as' => 'tournament.pool'
